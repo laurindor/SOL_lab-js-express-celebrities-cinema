@@ -1,25 +1,26 @@
-const express = require('express');
-const router = express.Router();
+const Celebrity = require("../models/Celebrity.model");
+const Movie = require("../models/Movie.model");
 
-const Movie = require('../models/Movie.model');
-const Celebrity = require('../models/Celebrity.model');
+const router = require("express").Router();
 
-router.get('/create', (req, res) => {
-	Celebrity.find().then((allCelebrities) => {
-		res.render('movies/new-movie', { allCelebrities });
-	});
-});
+// all your routes here
+router.get("/create", (req, res)=>{
+    Celebrity.find()
+    .then(allCelebs=>{
+        res.render("movies/new-movie", {allCelebs})
+    })
+    .catch(err => console.log(err))
+})
 
-router.post('/create', (req, res) => {
-	const { title, genre, plot, cast } = req.body;
-
-	Movie.create({ title, genre, plot, cast })
-		.then((newMovie) => {
-			console.log(newMovie);
-			res.redirect('/movies');
-		})
-		.catch((err) => console.log(err));
-});
+router.post("/create", (req, res)=>{
+    const {title, genre, plot, cast}= req.body
+    Movie.create({title, genre, plot, cast})
+    .then(newMovie=>{
+        console.log("Movie created!!", newMovie)
+        res.redirect("/movies")
+    }) 
+    .catch(err=> console.log(err))
+})
 
 router.get('/', (req, res) => {
 	Movie.find()
@@ -32,6 +33,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
+	//const movieId = req.params.id
 	const { id } = req.params;
 
 	Movie.findById(id)
@@ -43,6 +45,9 @@ router.get('/:id', (req, res) => {
 		.catch((err) => console.log(err));
 });
 
+
+//renderizar los datos de la BD dentro de los campos 
+//del formulario
 router.get('/:id/edit', (req, res) => {
 	const { id } = req.params;
 
@@ -60,7 +65,7 @@ router.post('/:id/edit', (req, res) => {
 
 	const { title, genre, plot, cast } = req.body;
 
-	Movie.findByIdAndUpdate(id, { title, genre, plot, cast })
+	Movie.findByIdAndUpdate(id, { title, genre, plot, cast })//para hacer update necesitamos la id del objeto y los datos del formulario
 		.then((updatedMovie) => {
 			console.log(updatedMovie);
 			res.redirect('/movies');
@@ -77,5 +82,7 @@ router.get('/:id/delete', (req, res) => {
 		})
 		.catch((err) => console.log(err));
 });
+
+
 
 module.exports = router;

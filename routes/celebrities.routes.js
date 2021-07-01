@@ -1,36 +1,31 @@
-const express = require('express');
-const router = express.Router();
+const router = require("express").Router();
 
-const Celebrity = require('../models/Celebrity.model');
+const { render } = require("../app");
+// all your routes here
 
-router.get('/create', (req, res) => {
+const Celebrity = require("../models/Celebrity.model")
 
-  res.render('celebrities/new-celebrity');
-
+router.get("/create", (req, res)=>{
+    res.render("celebrities/new-celebrity")
 });
 
-router.post('/create', (req, res) => {
+router.post("/create", (req, res)=>{
+    const {name, occupation, catchPhrase} = req.body
+    Celebrity.create({name, occupation, catchPhrase})
+    .then(createdCeleb =>{
+        console.log("Celebrity created!!", createdCeleb)
+        res.redirect("/celebrities")
+    })
+    .catch(err=> console.log(err))
+})
 
-  const { name, occupation, catchphrase } = req.body;
-
-	Celebrity.create({ name, occupation, catchphrase })
-		.then((newCelebrity) => {
-			console.log(newCelebrity);
-			res.redirect('/celebrities');
-		})
-		.catch((err) => console.log(err));
-
-  });
-
-router.get('/', (req, res) => {
-	
-  Celebrity.find()
-		.then((allCelebrities) => {
-			console.log(allCelebrities);
-			res.render('celebrities/celebrities', { allCelebrities });
-		})
-		.catch((err) => console.log(err));
-
-  });
+router.get("/", (req, res)=>{
+    Celebrity.find()
+    .then(allCelebrities=>{
+        res.render("celebrities/celebrities", {allCelebrities})
+        console.log(allCelebrities)
+    })
+    .catch(err=> console.log(err))
+})
 
 module.exports = router;

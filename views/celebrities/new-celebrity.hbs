@@ -1,14 +1,19 @@
-<h2>Create celebrity</h2>
+  
+<h2>Add a new Celebrity!!</h2>
+<div>
+    <form action="/celebrities/create" method="post">
+        
+        <label for="">Name</label>
+        <input type="text" name="name">
 
-<form action='/celebrities/create' method='POST'>
-  <label>Name: </label>
-  <input type="text" name="name"/>
+        <label for="">Occupation</label>
+        <input type="text" name="occupation">
 
-  <label>Occupation: </label>
-  <input type="text" name="occupation"/>
+        <label for="">Catch Phrase</label>
+        <input type="text" name="catchPhrase">
 
-  <label>Catchphrase: </label>
-  <input type="text" name="catchphrase"/>
-
-  <button type="submit">Send form</button>
-</form>
+        <button type="submit">Add this Celebrity</button>    
+    </form>
+    <a href="/celebrities/">Go to celebrities</a> <br>
+    <a href="/movies">Go to Movies</a> <br>
+</div>

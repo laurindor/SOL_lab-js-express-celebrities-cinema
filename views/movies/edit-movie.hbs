@@ -9,7 +9,8 @@
 
   <label>Plot: </label>
   <input type="text" name="plot" value="{{movie.plot}}" />
-
+  {{!-- en value le pasamos los datos de la BD para que no estén vacios
+  al abrir el formulario --}}
   <select name="cast" multiple>
     {{#each movie.cast}}
       <option value={{_id}}>{{name}}</option>
